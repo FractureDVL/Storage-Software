@@ -80,9 +80,12 @@ function Login() {
             )
          }
          <form onSubmit={handleSubmit} className="col-span-1 max-sm:col-span-3 flex justify-center items-center flex-col mx-6 my-5">
-            <div className='text-center mb-2'>
+            <div className='text-center mb-2 flex items-center flex-col'>
+               <Link to={'/'} className='mb-2'>
+                           <img src="/favicon/favicon.webp" alt="Logo" width={120} />
+               </Link>
                <h1 className='font-black text-3xl'>
-                  Iniciar Sesion
+                  Inicio de sesión
                </h1>
                <p className='text-gray-400'>¿Ya tienes cuenta? <Link to='/signup' className='font-bold text-black hover:text-blue-500'>Crea una Cuenta</Link></p>
             </div>

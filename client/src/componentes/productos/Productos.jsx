@@ -5,27 +5,32 @@ import { useProducto } from '../../contexts/ProductContext';
 import { useNavigate } from 'react-router-dom';
 
 function Productos() {
+   const defaultOption ={icon: '', nombre: 'Escoge una...'};
    const { productos, categorias } = useProducto();
-   const [categOption, setCategOption] = useState(null);
+   const [ categOption, setCategOption ] = useState(defaultOption);
 
+  
    const CustomCategOption = ({ innerProps, data }) => (
       <div {...innerProps} className="flex items-center ml-2 mb-2">
-         <span className='mr-1.5 scale-125'>{data.image}</span>
-         {data.label}
+        {data && data.icon && <img src={data.icon} alt='Icono' className='w-8 h-8 mr-4'/>}
+         <span className='mr-1.5 scale-125'>{ data.nombre}</span>
       </div>
    );
 
    const CustomCategSingleValue = ({ innerProps, data }) => (
       <div {...innerProps} className="flex items-center">
-         <span className='mr-1.5 scale-125'>{data.image}</span>
-         {data.label}
+        {data && data.icon && <img src={data.icon} alt='Icono' className='w-8 h-8 mr-4'/>}
+         <span className='mr-1.5 scale-125'>{data.nombre}</span>
       </div>
    );
 
    const navigate = useNavigate();
 
    useEffect(() => {
-      setCategOption(categorias[0]); // Asigna la primera categoría por defecto
+      if (categorias && categorias.length > 0) {
+         setCategOption(categorias[0]);
+         console.warn(categorias);
+      }
    }, [categorias]);
 
    return (
@@ -41,7 +46,7 @@ function Productos() {
                   value={categOption}
                   onChange={(option) => {
                      setCategOption(option);
-                     navigate('/productos/categ/' + option.value);
+                     navigate('/productos/categ/' + option.id);
                   }}
                />
             </div>

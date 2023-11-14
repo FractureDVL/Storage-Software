@@ -3,30 +3,24 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-10 text-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="w-1/2">
-          <p>Somos una empresa comprometida con la creación de soluciones innovadoras.</p>
-        </div>
-        <div className="w-1/2 flex justify-end items-center">
-          <img src="ruta/al/logo.png" alt="Logo" className="w-8 h-8 mr-4" />
-          {/* Reemplaza "ruta/al/logo.png" con la ruta correcta Link tu logo */}
-        </div>
+    <footer className="bg-black text-white py-10 text-md flex p-10">
+      
+      <div className='flex items-center flex-shrink-0'>
+        <img src={'/favicon/white-logo.png'} alt="Logo" className="w-32 h-32 mr-4" />
+        <p> <span>Global Sport</span><br /> © 2023 Global Sport Group. <br />Todos los derechos reservados.</p>
       </div>
-      <div className="container mx-auto flex justify-between mt-4">
-        <div className="w-1/2">
-          <ul className="list-disc">
-            <li><Link to={'/'}>Inicio</Link></li>
-            <li><Link to="#">Contacto</Link></li>
-            <li><Link to={'mailto:globalstore@yopmail.com'}>Email: globalstore@yopmail.com</Link></li>
-            <li><Link to={'/'}>Teléfono: (123) 456-7890</Link></li>
-            <li><Link to="{'/'}">¿Eres administrativo?</Link></li>
-          </ul>
-        </div>
-        <div className="w-1/2 text-center">
-          <p>© 2023 Global Sport Group. Todos los derechos reservados.</p>
-        </div>
+      
+      <div className="container mx-auto flex justify-end">
+        <ul className="list-none p-0">
+            <li><Link to={'/'} className=" hover:underline">Inicio</Link></li>
+            <li><Link to="#" className=" hover:underline">Contacto</Link></li>
+            <li><Link to={'mailto:globalstore@yopmail.com'} className=" hover:underline">Email: globalstore@yopmail.com</Link></li>
+            <li><Link to={'/'} className=" hover:underline">Teléfono: (123) 456-7890</Link></li>
+            {/* TODO Agregar la ruta del proyecto */}
+            <li><Link hrefLang='http://localhost:8000/admin/' className=" hover:underline">¿Eres administrativo?</Link></li>
+        </ul>
       </div>
+
     </footer>
   );
 };

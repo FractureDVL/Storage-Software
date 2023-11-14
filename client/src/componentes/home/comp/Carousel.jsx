@@ -12,7 +12,7 @@ function Carousel() {
 
    return (
       <OwlCarousel className='owl-theme' items={1} autoplay loop nav dots={false}>
-         {imgCarousel.map((item) => (
+         { imgCarousel.map((item) => (
             <div className='item' key={item.key}>
                <img src={item.url} alt={`Item ${item.key}`} />
             </div>

@@ -8,45 +8,26 @@ import Alert from "../alertas/Alert";
 
 function ViewProducto() {
 
-   const { productos } = useProducto();
+   const { productos , categorias } = useProducto();
    const [alert, setAlert] = useState(null);
-   const params = useParams();
-
    const [producto, setProducto] = useState(null);
+   const params = useParams();
+   const [selectedTalla, setSelectedTalla] = useState(35);
+   const navigate = useNavigate();
+   const { dispatch } = useCart();
+   const { isAuthenticated } = useAuth();
 
-   useEffect(() => {
+  useEffect(() => {
       if (productos.length > 0) {
          const productoEncontrado = productos.find((p) => p.id === parseInt(params.id));
          setProducto(productoEncontrado);
       }
    }, [productos, params.id]);
 
-   const [selectedTalla, setSelectedTalla] = useState(35);
-
-   const categoria = () => {
-      //TODO consumir categorias
-      
-      const categorias = {
-         'camisetas': 1,
-         'tenis': 2,
-         'pantalones': 3
-      }
-      let foundCat = Object.keys(categorias).find(
-         (cat) => {producto.categoria.includes(cat)}
-      )
-      console.warn(foundCat);
-      return foundCat
-      
-   }
-
-   const navigate = useNavigate();
-
-   const { dispatch } = useCart();
-   const { isAuthenticated } = useAuth();
-
    const addToCart = () => {
       if (isAuthenticated) {
          const carrito = { ...producto };
+         console.warn(producto);
          carrito.talla = selectedTalla;
          carrito.precio = precioOperado();
          dispatch({ type: "ADD_TO_CART", payload: carrito });
@@ -62,14 +43,6 @@ function ViewProducto() {
          return;
       }
       return navigate('/login');
-   };
-
-   const handleClick = () => {
-      const phoneNumber = '+573237637591';
-      const message = 'Hola, ¿cómo estás?. Tengo unas dudas acerca de un producto.';
-
-      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
    };
 
    const handleTallaChange = (event) => {
@@ -118,9 +91,8 @@ function ViewProducto() {
                         />
                      </div>
                      <div className='col-span-1' />
-                     <div className='col-span-5 max-md:col-span-12 bg p-4 max-sm:mx-4 rounded-lg flex flex-col justify-between bg-rose-50'>
+                     <div className='col-span-5 max-md:col-span-12 bg p-4 max-sm:mx-4 rounded-lg flex flex-col justify-between bg-white'>
                         <div>
-                           <p className='text-xs text-stone-400'>Categoría | {categoria()}</p>
                            <h1 className='text-xl font-extrabold text-black'>{producto.nombre}</h1>
                            <h1>{producto.descripcion}</h1>
                            <div className='my-4'>
@@ -141,7 +113,7 @@ function ViewProducto() {
                            <p className='font-semibold'>Talla</p>
 
                            <div className='flex radio-inputs w-52 text-sm relative flex-wrap rounded-md'>
-                              <label className="radio text-center">
+                           <label className="radio text-center">
                                  <input
                                     type="radio"
                                     name={producto.id}
@@ -202,15 +174,7 @@ function ViewProducto() {
                                  <span className="talla duration-100 flex cursor-pointer items-center justify-center rounded-md py-1">40</span>
                               </label>
                            </div>
-
-                           <Link to={'/sizes'} className='flex items-center hover:underline my-2.5 text-stone-400 w-fit'>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3.5 h-3.5">
-                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-                              </svg>
-                              <p className='ml-1 text-xs'>Tabla de Medidas</p>
-                           </Link>
                         </div>
-
                         <div>
                            <div className='grid grid-cols-12 rounded-lg text-center py-2 mx-8 space-x-2'>
                               <div className='col-span-1 flex justify-center items-center'>
@@ -220,16 +184,16 @@ function ViewProducto() {
                                  </svg>
                               </div>
                               <div className='col-span-11'>
-                                 <p className='text-xs'>Si tienes alguna duda, ¡No dudes en contactarnos a través de <button onClick={handleClick} className='hover:underline'>WhatsApp</button>!</p>
+                                 <p className='text-xs'>Si tienes alguna duda, ¡No dudes en contactarnos.!</p>
                               </div>
                            </div>
                            <div className='flex justify-center w-full mt-4'>
                               <button onClick={addToCart}
                                  data-ripple-light="true" type="button"
                                  className="select-none rounded-lg bg-black py-3 w-full text-center align-middle font-sans 
-                  text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-                   hover:shadow-stone-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none 
-                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                 text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
+                                 hover:shadow-stone-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none 
+                                 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                                  Comprar
                               </button>
                            </div>

@@ -6,8 +6,7 @@ import Alert from '../alertas/Alert';
 
 function Cart() {
 
-   const { cart, totalPrice, getCupon } = useCart();
-
+   const { cart, totalPrice, getCupon, pedido } = useCart();
    const [cantItems, setCantItems] = useState(false);
    const navigate = useNavigate()
 
@@ -66,39 +65,19 @@ function Cart() {
             cantidad: product.quantity,
             talla: product.talla,
          }));
-
-         const res = await getCupon(cupon);
-         console.log(res);
-
-         if (res.data.mensaje === "Ya ha utilizado este cupon") {
-            setCuponGotten(null);
-            setAlert({
-               title: 'Error al Redimir Cupón',
-               desc: `${res.data.mensaje}. Introduce otro o elimina el actual.`,
-               bg_color: 'bg-yellow-100',
-               border_color: 'border-yellow-500',
-               text_color: 'text-yellow-900',
-               svg_color: 'text-yellow-500',
-               bar_color: 'bg-yellow-500',
-            })
-            return
-         }
-         if (res.data.mensaje === "El cupon no existe.") {
-            setCuponGotten(null);
-            setAlert({
-               title: 'Error al Redimir Cupón',
-               desc: `${res.data.mensaje}. Introduce otro o elimina el actual.`,
-               bg_color: 'bg-yellow-100',
-               border_color: 'border-yellow-500',
-               text_color: 'text-yellow-900',
-               svg_color: 'text-yellow-500',
-               bar_color: 'bg-yellow-500',
-            })
-            return
-         }
-         setCuponGotten(res)
-
-         navigate('/checkout', { state: { productos: productos, cupon: cupon } })
+         
+         await pedido({ productos, cupon })
+         setAlert({
+               title: 'Pedido realizado.',
+               desc: 'Se ha registrado tu pedido correctamente!',
+               bg_color: 'bg-green-100',
+               border_color: 'border-green-500',
+               text_color: 'text-green-900',
+               svg_color: 'text-green-500',
+               bar_color: 'bg-green-500',
+         })
+         localStorage.removeItem('cart')
+         
       } catch (error) {
          console.error(error);
       }
@@ -126,40 +105,20 @@ function Cart() {
             {
                cart.length > 0 ?
                   <div className='grid grid-cols-12 w-full max-w-5xl max-sm:mb-20'>
-                     <div className='col-span-8 max-md:col-span-12 max-md:px-0 grid grid-cols-12 rounded-md h-fit py-4 px-4'>
-                        <div className='col-span-12 flex justify-between items-center'>
-                           <div>
-                              <h1 className='font-black text-black'>Carrito de Compras</h1>
-                              <p className='text-xs'>Tienes {cantItems} item(s) en tu carrito</p>
-                           </div>
-                        </div>
-                        {
-                           cart.map((product) => (
-                              <>
-                                 <CardCart key={product.id} product={product} />
-                              </>
-                           ))
-                        }
-                     </div>
-                     <div className='col-span-1 max-lg:hidden' />
                      <div className='col-span-3 max-lg:col-span-4 max-md:col-span-12'>
                         <div className='grid grid-cols-12 border-delgado rounded-md p-5'>
-                           <h1 className='col-span-12 font-black text-black mb-4'>Resumen del Pedido</h1>
+                           <h1 className='col-span-12 font-black text-black mb-4'>Tu Pedido</h1>
                            <div className='col-span-12 text-sm flex justify-between'>
-                              <h1 className='text-black font-black'>Subtotal:</h1>
+                              <h1 className='text-black font-black'>Total:</h1>
                               <p>$ {(totalPrice).toLocaleString('en-US')}</p>
                            </div>
                            <div className='col-span-12 text-sm flex justify-between'>
-                              <h1 className='text-black font-black'>Envío:</h1>
+                              <h1 className='text-black font-black'>Valor del envio:</h1>
                               <p> $ {(costoEnvio).toLocaleString('en-US')}</p>
-                           </div>
-                           <div className='col-span-12 text-sm flex justify-between'>
-                              <h1 className='text-black font-black'>IVA:</h1>
-                              <p className='italic text-gray-300'>Incluido</p>
                            </div>
                            <hr className='col-span-12 my-4' />
                            <form onSubmit={(e) => handleCuponSubmit(e)} className='col-span-12 text-sm grid grid-cols-12'>
-                              <label htmlFor="cupon" className="text-sm font-bold col-span-11">Redimir Cupon</label>
+                              <label htmlFor="cupon" className="text-sm font-bold col-span-11">Canjea cupon</label>
                               <input
                                  type="text"
                                  name="cupon"
@@ -177,7 +136,7 @@ function Cart() {
                               cuponGotten &&
                               <div className='col-span-12 text-sm flex justify-between mt-2'>
                                  <h1 className='text-black font-black'>Descuento:</h1>
-                                 <p>{cuponGotten.descuento}%</p>
+                                 <p>{cuponGotten.data.datos.descuento}%</p>
                               </div>
                            }
                            <hr className='col-span-12 my-4' />
@@ -188,7 +147,7 @@ function Cart() {
                                     <p>$ {(costoEnvio + totalPrice).toLocaleString('en-US')}</p>
                                     :
                                     <div>
-                                       <p>$ {(Math.round(((totalPrice) - ((totalPrice) * (cuponGotten.descuento / 100))) + costoEnvio)).toLocaleString('en-US')}</p>
+                                       <p>$ {(Math.round(((totalPrice) - ((totalPrice) * (cuponGotten.data/datos.descuento / 100))) + costoEnvio)).toLocaleString('en-US')}</p>
                                        <p className='-translate-y-1 italic text-slate-300 line-through text-center'>$ {(costoEnvio + totalPrice).toLocaleString('en-US')}</p>
                                     </div>
                               }
@@ -213,6 +172,23 @@ function Cart() {
                            </div>
                         </div>
                      </div >
+                     <div className='col-span-8 max-md:col-span-12 max-md:px-0 grid grid-cols-12 rounded-md h-fit py-4 px-4'>
+                        <div className='col-span-12 flex justify-between items-center'>
+                           <div>
+                              <h1 className='font-black text-black'>Carrito de Compras</h1>
+                              <p className='text-xs'>Tienes {cantItems} item(s) en tu carrito</p>
+                           </div>
+                        </div>
+                        {
+                           cart.map((product) => (
+                              <>
+                                 <CardCart key={product.id} product={product} />
+                              </>
+                           ))
+                        }
+                     </div>
+                     <div className='col-span-1 max-lg:hidden' />
+                     
                   </div>
                   :
                   <>

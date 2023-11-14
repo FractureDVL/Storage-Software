@@ -64,7 +64,7 @@ const Navbar = () => {
 
    const contentBadge = () => {
       const carritoxd = JSON.parse(localStorage.getItem('cart'));
-      if (carritoxd.length > 10) {
+      if (carritoxd.length > 100) {
          return '+99'
       }
       return carritoxd.length
@@ -81,8 +81,8 @@ const Navbar = () => {
      shouldShowNavBar && (
        <>
          <p className="text-center bg-red-500 text-white px-5">
-           ¡Obten un 10% de descuento en tu primera compra!
-         </p>
+          ¡Aprovecha un 10% de descuento en tu primera orden!
+        </p>
          <nav className="h-20 bg-zinc-900 text-white sticky top-0 z-50 grid grid-cols-12 px-10 max-md:px-2 py-0 max-md:items-center">
            <Link
              to="/"
@@ -181,7 +181,7 @@ const Navbar = () => {
                      <span className="sr-only">Abrir Menu</span>
                      <img
                        className="h-8 w-8 rounded-full"
-                       src="/favicon/profile.webp"
+                       src="/favicon/profile.png"
                        alt=""
                      />
                    </button>
@@ -303,17 +303,13 @@ const Navbar = () => {
                  onMouseLeave={() => setCursorProduct(false)}
                >
                  <ul className="flex">
-                   <li className="px-4">
-                     <Link to="/productos" className="hover:text-blue-500">
-                       Ver Todo
-                     </Link>
-                   </li>
-                   {categorias.map((categoria) => (
+                  {categorias.map((categoria) => (
                      <li className="px-4" key={categoria.id}>
                        <Link
-                         to={`/productos/${categoria.id}`}
+                         to={'/productos/categ/' + categoria.id}
                          className="hover:text-blue-500">
                          {categoria.nombre}
+                         
                        </Link>
                      </li>
                    ))}

@@ -65,10 +65,10 @@ function CardProductos({ producto }) {
          }
          {
             params && parseInt(params.categoria) === producto.categoria ?
-               <div className="max-sm:scale-90 col-span-3 mt-10 mb-5 relative flex justify-between w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+               <div className="max-sm:scale-90 col-span-3 mt-10 mb-5 relative flex justify-between w-80 flex-col bg-white bg-clip-border text-gray-700 shadow-lg">
                   <button className='cursor-pointer text-start' onClick={() => { NavigateToviewProducto() }}>
-                     <div className="relative mx-4 -mt-6 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600 flex items-center">
-                        <img src={producto.image} alt={producto.id} />
+                     <div className="relative -mt-6 h-60 overflow-hidden bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600 flex items-center">
+                        <img className='transition-transform transform-gpu hover:scale-110' src={producto.image} alt={producto.id} />
                         {
                            producto.descuento > 0 && (
                               <div className="absolute top-0 right-0">
@@ -104,116 +104,23 @@ function CardProductos({ producto }) {
                      </div>
                   </button>
                   <div className="p-6 pt-0 mx-auto">
-                     <button onClick={addToCart}
-                        data-ripple-light="true" type="button"
-                        className="select-none rounded-lg bg-black py-3 px-6 text-center align-middle font-sans 
-         text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-          hover:shadow-stone-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none 
-          disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                        Comprar
+                        <button onClick={addToCart} className='btn bg-black text-white rounded-md'>
+                                 <div>
+                                    <span>
+                                       <p className='w-full'>Agregar</p>
+                                    </span>
+                                 </div>
+                                 <div>
+                                    <span>
+                                       <p className='w-full flex justify-center'>
+                                       <span class="material-symbols-outlined">add_shopping_cart</span>
+                                       </p>
+                                    </span>
+                                 </div>
                      </button>
                   </div>
-               </div>
-               : params && parseInt(params.coleccion) === producto.coleccion ?
-                  <div className="max-sm:scale-90 col-span-3 mt-10 mb-5 relative flex justify-between  w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                     <button className='cursor-pointer text-start' onClick={() => { NavigateToviewProducto() }}>
-                        <div className="relative mx-4 -mt-6 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600 flex items-center">
-                           <img src={producto.image} alt={producto.id} />
-                           {
-                              producto.descuento > 0 && (
-                                 <div className="absolute top-0 right-0">
-                                    <div className="w-32 h-8 absolute top-4 -right-8">
-                                       <div
-                                          className="h-4/5 w-full bg-red-500 text-white text-center leading-8 font-semibold transform rotate-45
-                  flex justify-center items-center">
-                                          {producto.descuento}% OFF
-                                       </div>
-                                    </div>
-                                 </div>
-                              )
-                           }
-                        </div>
-                        <div className="p-6">
-                           <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                              {producto.nombre}
-                           </h5>
-                           <p className="block font-sans text-base font-light leading-4 mb-2 text-inherit antialiased">
-                              {producto.descripcion}
-                           </p>
-                           {
-                              producto.descuento > 0 ?
-                                 <div className='text-lg italic'>
-                                    $ {precioFormateado}
-                                    <p className='text-stone-300 italic -translate-y-1.5 line-through'>$ {(producto.precio).toLocaleString('en-US')}</p>
-                                 </div>
-                                 :
-                                 <p className='text-lg italic'>
-                                    $ {precioFormateado}
-                                 </p>
-                           }
-                        </div>
-                     </button>
-                     <div className="p-6 pt-0 mx-auto">
-                        <button onClick={addToCart}
-                           data-ripple-light="true" type="button"
-                           className="select-none rounded-lg bg-black py-3 px-6 text-center align-middle font-sans 
-      text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-       hover:shadow-stone-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none 
-       disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                           Comprar
-                        </button>
-                     </div>
-                  </div>
-                  : params.categoria === undefined && params.coleccion === undefined &&
-                  <div className="max-sm:scale-90 col-span-3 mt-10 mb-5 relative flex justify-between  w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                     <button className='cursor-pointer text-start' onClick={() => { NavigateToviewProducto() }}>
-                        <div className="relative mx-4 -mt-6 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600 flex items-center">
-                           <img src={producto.image} alt={producto.id} />
-                           {
-                              producto.descuento > 0 && (
-                                 <div className="absolute top-0 right-0">
-                                    <div className="w-32 h-8 absolute top-4 -right-8">
-                                       <div
-                                          className="h-4/5 w-full bg-red-500 text-white text-center leading-8 font-semibold transform rotate-45
-                     flex justify-center items-center">
-                                          {producto.descuento}% OFF
-                                       </div>
-                                    </div>
-                                 </div>
-                              )
-                           }
-                        </div>
-                        <div className="p-6">
-                           <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                              {producto.nombre}
-                           </h5>
-                           <p className="block font-sans text-base font-light leading-4 mb-2 text-inherit antialiased">
-                              {producto.descripcion}
-                           </p>
-                           {
-                              producto.descuento > 0 ?
-                                 <div className='text-lg italic'>
-                                    $ {precioFormateado}
-                                    <p className='text-stone-300 italic -translate-y-1.5 line-through'>$ {(producto.precio).toLocaleString('en-US')}</p>
-                                 </div>
-                                 :
-                                 <p className='text-lg italic'>
-                                    $ {precioFormateado}
-                                 </p>
-                           }
-                        </div>
-                     </button>
-                     <div className="p-6 pt-0 mx-auto">
-                        <button onClick={addToCart}
-                           data-ripple-light="true" type="button"
-                           className="select-none rounded-lg bg-black py-3 px-6 text-center align-middle font-sans 
-         text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-          hover:shadow-stone-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none 
-          disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                           Comprar
-                        </button>
-                     </div>
-                  </div>
+               </div>:
+               <></>
          }
       </>
    )
