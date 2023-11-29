@@ -11,3 +11,4 @@ class CoreConfig(AppConfig):
         import apps.core.admin.producto_pedido
         import apps.core.admin.cupon
         import apps.core.admin.nosotros
+        import apps.core.admin.reportes

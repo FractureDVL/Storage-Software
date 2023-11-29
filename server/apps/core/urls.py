@@ -10,6 +10,7 @@ from apps.core.views.nosotros import NosotrosViewSet
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from apps.core.views.reporte import ReporteView
 
 #Swagger config 
 schema_view = get_schema_view(
@@ -42,5 +43,7 @@ urlpatterns = [
     path('', include(router.urls)),
     re_path(r'^docs/swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^docs/swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^docs/redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
+    re_path(r'^docs/redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('mostrar_grafico/<int:categoria_id>/', CategoriaViewSet.mostrar_grafico, name='mostrar_grafico'),
+    path('generar_reporte/', ReporteView.as_view(), name='generar_pdf'),
 ]

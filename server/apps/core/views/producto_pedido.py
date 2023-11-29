@@ -103,7 +103,9 @@ class ProductoPedidoViewSet(ModelViewSet):
     @action(detail=False, methods=['get'], url_path='mis-pedidos')
     def misPedidos(self, request):
         user_id = self.request.user.id
-        pedidos = Pedido.objects.filter(usuario=user_id)
+        
+        # pedidos = Pedido.objects.filter(usuario=user_id)
+        pedidos = Pedido.objects.all()
 
         serializer = PedidoSerializer(pedidos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -4,15 +4,16 @@ from django.db import models
 import uuid
 #Pedidos 
 class Pedido(models.Model):
-    OPCIONES_CAMPO = [
-        ('Pendiente', 'Pendiente'),
-        ('Aprobado', 'Aprobado'),
-        ('Cancelado', 'Cancelado'),
-    ]
+    class UserRanges(models.TextChoices):
+        PENDIENTE = ('Pendiente')
+        APROBADO = ('Aprobado')
+        CANCELADO = ('Cancelado')
+        DEVOLUCION = ('Devolución')
+
     id = models.CharField(primary_key=True, verbose_name='Id pedido', null=False, max_length=50, unique=True, default=uuid.uuid4, editable=False)
     fecha = models.DateTimeField(auto_now=True, editable=False, verbose_name='Fecha', null=False)
     usuario = models.ForeignKey(User, verbose_name='Usuario', null=False, on_delete=models.DO_NOTHING)
-    estado = models.CharField(verbose_name='Estado del pedido', null=False, choices=OPCIONES_CAMPO, default='Pendiente', max_length=50)
+    estado = models.CharField(verbose_name='Estado del pedido', null=False, choices=UserRanges.choices, default='Pendiente', max_length=50)
     precio_total = models.DecimalField(verbose_name='Precio total', null=True, decimal_places=5, max_digits=25)
     empresa_envio = models.CharField(verbose_name='Empresa de envio', null=True, default='Sin asignar', max_length=50)
     numero_guia = models.CharField(verbose_name='Número de guia', null=True, default='Sin asignar', max_length=50)

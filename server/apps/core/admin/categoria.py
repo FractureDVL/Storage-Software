@@ -1,3 +1,6 @@
+from audioop import reverse
+from django.http import HttpResponseRedirect
+from django.utils.html import format_html
 from django.contrib import admin
 from apps.core.admin.producto import ProductoInline
 from apps.core.models.categoria import Categoria
@@ -11,3 +14,5 @@ class CategoriasAdmin(admin.ModelAdmin):
         return ', '.join([producto.nombre for producto in productos])
 
 admin.site.register(Categoria, CategoriasAdmin)
+
+
