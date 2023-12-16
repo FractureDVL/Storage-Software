@@ -12,34 +12,36 @@ Asegúrate de tener instalado Python y Node.js en tu sistema.
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # En sistemas basados en Unix
-# o
+source venv/bin/activate  # En sistemas basados en Unix```
+
+```bash
 .\venv\Scripts\activate  # En sistemas Windows
 Instalación de dependencias de Python
-bash
-Copy code
+```
+Para instalar requerimientos
+```bash
 pip install -r requirements.txt
+```
 Configuración del entorno de desarrollo (Node.js)
-bash
-Copy code
+```bash
 cd frontend
 npm install
+```
 Iniciar la aplicación
-Backend (Django)
-bash
-Copy code
+```bash
 python manage.py migrate
 python manage.py runserver
+```
 La aplicación estará disponible en http://localhost:8000/.
 
 Frontend (React)
 En otra terminal, desde la carpeta "frontend":
-
-bash
-Copy code
+```bash
 npm start
+```
 La interfaz estará disponible en http://localhost:3000/.
 
+# Librerias
 Versiones de las bibliotecas
 Django: 4.0.5
 djangorestframework: 3.14.0
@@ -49,7 +51,6 @@ djangorestframework-simplejwt: 5.2.2
 django-filter: 23.1
 django-simple-history: 3.3.0
 daphne: 4.0.0
-channels_redis: 4.1.0
 requests: 2.31.0
 pillow: 10.0.1
 Faker: 19.11.0
